@@ -1,6 +1,5 @@
 package com.mygdx.game;
 
-
 public class PlayerProjectile
 {
 	private double damage;

@@ -3,8 +3,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class Player
 {
+	public static final int STARTING_HEALTH = 5;
 	public float speed;
-	public EntityBox entityBox;	
+	public EntityBox entityBox;
+	public int health;	
        //public static final int  PROJECTILE_SIZE = 5;	
 	
 	//Time handled in milli seconds
@@ -15,14 +17,15 @@ public class Player
 	{
 		entityBox = new EntityBox(x, y, width, height);
 		this.speed = speed;
-		timeLastFired = TimeUtils.millis();		
+		timeLastFired = TimeUtils.millis();	
+		health = STARTING_HEALTH;	
 	}
 
 	public void moveFromKeyboard()
 	{
 		if(MyGdxGame.playerInput.up && entityBox.y < MyGdxGame.SCREEN_HEIGHT / 3)
 			entityBox.y += this.speed;
-		if(MyGdxGame.playerInput.down && entityBox.y > 0)
+		if(MyGdxGame.playerInput.down && entityBox.y > 0 + MyGdxGame.BOTTOM_INTERFACE_HEIGHT)
 			entityBox.y -= this.speed;
 		if(MyGdxGame.playerInput.left && entityBox.x > 0)
 			entityBox.x -= this.speed;

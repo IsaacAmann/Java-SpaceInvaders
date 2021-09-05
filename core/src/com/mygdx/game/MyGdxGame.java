@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class MyGdxGame extends ApplicationAdapter {
 	//globals
@@ -25,8 +26,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	final static int PLAYER_HEIGHT = 60;	
 	final static float BACKGROUND_SPEED = 1;	
 	final static int ALIEN_SIZE = 20;	
-
+	final static int BOTTOM_INTERFACE_HEIGHT = 40;
+	
 	private ShapeRenderer shape;	
+	BitmapFont font;
+	
 	//Declaring variables for images
 	private SpriteBatch batch;
 	private Texture img;
@@ -35,9 +39,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Texture alienProjectileImage;
 	private Texture shipProjectileImage;
 	private Texture backgroundImage;
+	private Texture bottomInterfaceImage;	
+	
+	//end image declarations
+	
+	//positions for scrolling background image
 	private float background1Y = SCREEN_HEIGHT;
 	private float background2Y = 0;
-	//end image declaration
 
 	private OrthographicCamera camera;
 	//arraylists to store instances of objects
@@ -66,8 +74,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		alienProjectileImage = new Texture(Gdx.files.internal("alienProjectile.png"));
 		shipProjectileImage = new Texture(Gdx.files.internal("playerProjectile.png"));
 		backgroundImage = new Texture(Gdx.files.internal("background.jpg"));
+		bottomInterfaceImage = new Texture(Gdx.files.internal("bottomInterface.png"));
+		font = new BitmapFont();
 		player1 = new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3, PLAYER_WIDTH, PLAYER_HEIGHT, 10);
-
+		
 		generateAlienGrid(20,10,ALIEN_SIZE,ALIEN_SIZE);
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -191,6 +201,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			{
 				alienProjectileIterator.remove();
 				hasCollided = true;
+				player1.health -= 1;
 			}
 		}	
 		//Throwing error when colliding with two aliens at once		
@@ -329,6 +340,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.draw(shipProjectileImage, i.entityBox.x, i.entityBox.y);	
 		}
 		batch.draw(shipImage, player1.entityBox.x, player1.entityBox.y);
+		batch.draw(bottomInterfaceImage,0,0);
+		font.draw(batch, "Ship Health: " + player1.health,5,30);
 		batch.end();
 		
 		//Old draw player statements
