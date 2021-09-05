@@ -343,6 +343,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.draw(bottomInterfaceImage,0,0);
 		font.draw(batch, "Ship Health: " + player1.health,5,30);
 		batch.end();
+		shape.begin(ShapeRenderer.ShapeType.Filled);
+			shape.setColor(0,1,0,0);
+			shape.rect(700,2,player1.energy * 98, 36);
+		shape.end();
 		
 		//Old draw player statements
 		/*
