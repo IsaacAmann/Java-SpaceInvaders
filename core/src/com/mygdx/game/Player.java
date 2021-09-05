@@ -1,17 +1,28 @@
 package com.mygdx.game;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Player
 {
+	final static int PLAYER_WIDTH = 60;
+	final static int PLAYER_HEIGHT = 60;
+	final static int SHIELDED_HEIGHT = 90;	
+	final static float SHIELD_ENERGY_COST = 0.1F;
+
 	public static final int STARTING_HEALTH = 5;
 	public float speed;
 	public EntityBox entityBox;
 	public int health;	
 	public float energy;
-	public float energyRechargeRate = 0.0005F;
+	public float energyRechargeRate = 0.005F;
 	public float standardProjectileEnergyCost = 0.1F;
-
+	public int currentState = 1;
        //public static final int  PROJECTILE_SIZE = 5;	
+	//Textures
+	
+
+
 	
 	//Time handled in milli seconds
 	public long timeLastFired;
@@ -39,6 +50,15 @@ public class Player
 			entityBox.x += this.speed;
 		if(MyGdxGame.playerInput.fire)
 			fire(entityBox.x, entityBox.y);
+		if(MyGdxGame.playerInput.shield && energy - SHIELD_ENERGY_COST > 0)
+		{
+			currentState = 2;
+		}
+		else
+		{
+			currentState = 1;
+		}
+		stateBehavior();
 		manageEnergy();
 	}
 	//alters the energy variable based on the recharge rate
@@ -64,6 +84,46 @@ public class Player
 			MyGdxGame.playerProjectileArray.add(temp); 
 			timeLastFired = TimeUtils.millis();
 			energy -= standardProjectileEnergyCost;
+		}
+	}
+
+	public void stateBehavior()
+	{
+		switch(currentState)
+		{
+			case 1:
+				entityBox.width = PLAYER_WIDTH;
+				entityBox.height = PLAYER_HEIGHT;
+			break;
+			//shielded state
+			case 2:
+				entityBox.width = PLAYER_WIDTH;
+				entityBox.height = SHIELDED_HEIGHT;
+				energy -= SHIELD_ENERGY_COST;
+			break;
+			
+			default:
+				entityBox.width = PLAYER_WIDTH;
+				entityBox.height = PLAYER_HEIGHT;
+		}
+	}
+	
+	public void draw(SpriteBatch batch)
+	{
+		switch(currentState)
+		{
+			//case for drawing regular ship sprite
+			case 1: 
+				batch.draw(MyGdxGame.shipImage, entityBox.x, entityBox.y);
+			break;
+			//case for when shield is active
+			case 2:
+				batch.draw(MyGdxGame.shipShieldedImage, entityBox.x, entityBox.y);
+			break;			
+
+			default:
+				batch.draw(MyGdxGame.shipImage, entityBox.x, entityBox.y);
+
 		}
 	}	
 }

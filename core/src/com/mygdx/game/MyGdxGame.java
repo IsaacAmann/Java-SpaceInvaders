@@ -32,15 +32,15 @@ public class MyGdxGame extends ApplicationAdapter {
 	BitmapFont font;
 	
 	//Declaring variables for images
-	private SpriteBatch batch;
-	private Texture img;
-	private Texture alienImage;
-	private Texture shipImage;
-	private Texture alienProjectileImage;
-	private Texture shipProjectileImage;
-	private Texture backgroundImage;
-	private Texture bottomInterfaceImage;	
-	
+	public static SpriteBatch batch;
+	public static Texture img;
+	public static Texture alienImage;
+	public static Texture shipImage;
+	public static Texture alienProjectileImage;
+	public static Texture shipProjectileImage;
+	public static Texture backgroundImage;
+	public static Texture bottomInterfaceImage;	
+	public static Texture shipShieldedImage;	
 	//end image declarations
 	
 	//positions for scrolling background image
@@ -71,6 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 		alienImage = new Texture(Gdx.files.internal("alien.png"));
 		shipImage = new Texture(Gdx.files.internal("playerShip.png"));
+		shipShieldedImage = new Texture(Gdx.files.internal("playerShipShielded.png"));
 		alienProjectileImage = new Texture(Gdx.files.internal("alienProjectile.png"));
 		shipProjectileImage = new Texture(Gdx.files.internal("playerProjectile.png"));
 		backgroundImage = new Texture(Gdx.files.internal("background.jpg"));
@@ -98,6 +99,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		static boolean left = false;
 		static boolean right = false;
 		static boolean fire = false;
+		static boolean shield = false;
 	}
 	//controls
 	private void manageInput()
@@ -142,7 +144,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		else
 		{
 			playerInput.fire = false;
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.E))
+		{
+			playerInput.shield = true;
 		}	
+		else
+		{
+			playerInput.shield = false;
+		}
 			
 	}	
 
@@ -201,7 +211,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			{
 				alienProjectileIterator.remove();
 				hasCollided = true;
-				player1.health -= 1;
+				if(player1.currentState != 2)
+					player1.health -= 1;
 			}
 		}	
 		//Throwing error when colliding with two aliens at once		
@@ -339,7 +350,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			
 			batch.draw(shipProjectileImage, i.entityBox.x, i.entityBox.y);	
 		}
-		batch.draw(shipImage, player1.entityBox.x, player1.entityBox.y);
+		//batch.draw(shipImage, player1.entityBox.x, player1.entityBox.y);
+		player1.draw(batch);
 		batch.draw(bottomInterfaceImage,0,0);
 		font.draw(batch, "Ship Health: " + player1.health,5,30);
 		batch.end();
