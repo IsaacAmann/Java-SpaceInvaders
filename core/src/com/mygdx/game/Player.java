@@ -40,17 +40,17 @@ public class Player
 	//Acts like update function, place anything to run each frame here
 	public void moveFromKeyboard()
 	{
-		if(MyGdxGame.playerInput.up && entityBox.y < MyGdxGame.SCREEN_HEIGHT / 3)
+		if(GameScreen.playerInput.up && entityBox.y < GameScreen.SCREEN_HEIGHT / 3)
 			entityBox.y += this.speed;
-		if(MyGdxGame.playerInput.down && entityBox.y > 0 + MyGdxGame.BOTTOM_INTERFACE_HEIGHT)
+		if(GameScreen.playerInput.down && entityBox.y > 0 + GameScreen.BOTTOM_INTERFACE_HEIGHT)
 			entityBox.y -= this.speed;
-		if(MyGdxGame.playerInput.left && entityBox.x > 0)
+		if(GameScreen.playerInput.left && entityBox.x > 0)
 			entityBox.x -= this.speed;
-		if(MyGdxGame.playerInput.right && entityBox.x < MyGdxGame.SCREEN_WIDTH - entityBox.width)
+		if(GameScreen.playerInput.right && entityBox.x < GameScreen.SCREEN_WIDTH - entityBox.width)
 			entityBox.x += this.speed;
-		if(MyGdxGame.playerInput.fire)
+		if(GameScreen.playerInput.fire)
 			fire(entityBox.x, entityBox.y);
-		if(MyGdxGame.playerInput.shield && energy - SHIELD_ENERGY_COST > 0)
+		if(GameScreen.playerInput.shield && energy - SHIELD_ENERGY_COST > 0)
 		{
 			currentState = 2;
 		}
@@ -80,8 +80,8 @@ public class Player
 	{
 		if(TimeUtils.timeSinceMillis(timeLastFired) >= FIRE_COOLDOWN && energy - standardProjectileEnergyCost >= 0)
 		{
-			PlayerProjectile temp = new PlayerProjectile(x, y, MyGdxGame.PLAYER_PROJECTILE_WIDTH, MyGdxGame.PLAYER_PROJECTILE_HEIGHT);
-			MyGdxGame.playerProjectileArray.add(temp); 
+			PlayerProjectile temp = new PlayerProjectile(x, y, GameScreen.PLAYER_PROJECTILE_WIDTH, GameScreen.PLAYER_PROJECTILE_HEIGHT);
+			GameScreen.playerProjectileArray.add(temp); 
 			timeLastFired = TimeUtils.millis();
 			energy -= standardProjectileEnergyCost;
 		}
@@ -114,15 +114,15 @@ public class Player
 		{
 			//case for drawing regular ship sprite
 			case 1: 
-				batch.draw(MyGdxGame.shipImage, entityBox.x, entityBox.y);
+				batch.draw(GameScreen.shipImage, entityBox.x, entityBox.y);
 			break;
 			//case for when shield is active
 			case 2:
-				batch.draw(MyGdxGame.shipShieldedImage, entityBox.x, entityBox.y);
+				batch.draw(GameScreen.shipShieldedImage, entityBox.x, entityBox.y);
 			break;			
 
 			default:
-				batch.draw(MyGdxGame.shipImage, entityBox.x, entityBox.y);
+				batch.draw(GameScreen.shipImage, entityBox.x, entityBox.y);
 
 		}
 	}	
