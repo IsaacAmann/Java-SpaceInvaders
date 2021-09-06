@@ -16,6 +16,7 @@ public class MyGdxGame extends Game
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		this.setScreen(new MenuScreen(this));
+		//this.setScreen(new GameScreen(this));
 	}
 	
 	public void render()
