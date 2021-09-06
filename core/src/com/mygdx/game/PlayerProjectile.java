@@ -1,3 +1,7 @@
+/**
+standard projectile fired by the player
+*/
+
 package com.mygdx.game;
 
 public class PlayerProjectile

@@ -1,3 +1,7 @@
+/**
+standard enemy class
+*/
+
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.Random;
