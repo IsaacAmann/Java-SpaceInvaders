@@ -66,9 +66,11 @@ public class GameScreen implements Screen {
 	private static ArrayList<Integer> playerProjectileRemoveList = new ArrayList<Integer>();
 
 	public GameScreen(final MyGdxGame game) {
+		
 		this.game = game;
 		//batch = new SpriteBatch();
 		camera = new OrthographicCamera();
+		Gdx.graphics.setWindowedMode(800,800);
 		shape = new ShapeRenderer();
 		//Loading images / textures
 		img = new Texture("badlogic.jpg");
@@ -83,7 +85,7 @@ public class GameScreen implements Screen {
 		player1 = new Player(game.SCREEN_WIDTH / 2, game.SCREEN_HEIGHT / 3, PLAYER_WIDTH, PLAYER_HEIGHT, 10);
 		
 		generateAlienGrid(20,10,ALIEN_SIZE,ALIEN_SIZE);
-		camera.setToOrtho(false, game.SCREEN_WIDTH, game.SCREEN_HEIGHT);
+		camera.setToOrtho(false,game.SCREEN_WIDTH,game.SCREEN_HEIGHT);
 
 
 		//Alien testAlien = new Alien(4,4,4,4,4);	
