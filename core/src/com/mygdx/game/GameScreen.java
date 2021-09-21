@@ -228,7 +228,7 @@ public class GameScreen implements Screen {
 			boolean hasCollided = false;		
 			Iterator<Alien> alienIterator = alienArray.iterator();	
 
-			if(tempPlayerProjectile.entityBox.y > game.SCREEN_HEIGHT)
+			if(tempPlayerProjectile.entityBox.y > SCREEN_HEIGHT)
 			{
 				playerProjectileIterator.remove();
 				hasCollided = true;
