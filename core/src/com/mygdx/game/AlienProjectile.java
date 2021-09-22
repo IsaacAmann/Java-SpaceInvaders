@@ -1,3 +1,7 @@
+/**
+standard projectile fired by objects of the Alien class
+*/
+
 package com.mygdx.game;
 
 

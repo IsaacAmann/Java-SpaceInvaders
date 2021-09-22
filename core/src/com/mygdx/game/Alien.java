@@ -1,3 +1,7 @@
+/**
+standard enemy class
+*/
+
 package com.mygdx.game;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.Random;
@@ -19,13 +23,13 @@ public class Alien
 	
 	public void fireProjectile()
 	{
-		AlienProjectile tempProjectile = new AlienProjectile(entityBox.x, entityBox.y, entityBox.width/2, entityBox.height/2, MyGdxGame.PROJECTILE_SPEED);
-		MyGdxGame.alienProjectileArray.add(tempProjectile);			
+		AlienProjectile tempProjectile = new AlienProjectile(entityBox.x, entityBox.y, entityBox.width/2, entityBox.height/2, GameScreen.PROJECTILE_SPEED);
+		GameScreen.alienProjectileArray.add(tempProjectile);			
 	}
 	
 	public void alienMovement()
 	{
-		if(direction == true && entityBox.x <= MyGdxGame.SCREEN_WIDTH)
+		if(direction == true && entityBox.x <= GameScreen.SCREEN_WIDTH)
 		{
 			entityBox.x += speed;
 		}else 

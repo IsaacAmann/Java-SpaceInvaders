@@ -1,0 +1,17 @@
+com/mygdx/game/Alien.java
+ com.mygdx.game.Alien
+com/mygdx/game/EntityBox.java
+ com.mygdx.game.EntityBox
+com/mygdx/game/AlienProjectile.java
+ com.mygdx.game.AlienProjectile
+com/mygdx/game/Player.java
+ com.mygdx.game.Player
+com/mygdx/game/MenuScreen.java
+ com.mygdx.game.MenuScreen
+com/mygdx/game/MyGdxGame.java
+ com.mygdx.game.MyGdxGame
+com/mygdx/game/GameScreen.java
+ com.mygdx.game.GameScreen
+ com.mygdx.game.GameScreen$playerInput
+com/mygdx/game/PlayerProjectile.java
+ com.mygdx.game.PlayerProjectile
