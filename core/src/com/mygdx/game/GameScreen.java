@@ -17,8 +17,8 @@ public class GameScreen implements Screen {
 	//globals
 	final MyGdxGame game;
 
-	final static int SCREEN_HEIGHT = 800;
-	final static int SCREEN_WIDTH = 800;	
+	static int SCREEN_HEIGHT;
+	static int SCREEN_WIDTH;	
 	final static float ALIEN_SPEED = 5;
 	final static float PROJECTILE_SPEED = 2;
 	final static int PLAYER_PROJECTILE_WIDTH = 8;
@@ -47,7 +47,8 @@ public class GameScreen implements Screen {
 	//end image declarations
 	
 	//positions for scrolling background image
-	private float background1Y = SCREEN_HEIGHT;
+	//background1Y set to SCREEN_HEIGHT inside of constructor
+	private float background1Y;
 	private float background2Y = 0;
 
 	private OrthographicCamera camera;
@@ -68,9 +69,13 @@ public class GameScreen implements Screen {
 	public GameScreen(final MyGdxGame game) {
 		
 		this.game = game;
+		SCREEN_WIDTH = game.SCREEN_WIDTH;
+		SCREEN_HEIGHT = game.SCREEN_HEIGHT;
+		background1Y  = SCREEN_HEIGHT;		
+
 		//batch = new SpriteBatch();
 		camera = new OrthographicCamera();
-		Gdx.graphics.setWindowedMode(800,800);
+		Gdx.graphics.setWindowedMode(game.SCREEN_WIDTH,game.SCREEN_HEIGHT);
 		shape = new ShapeRenderer();
 		//Loading images / textures
 		img = new Texture("badlogic.jpg");
@@ -85,7 +90,9 @@ public class GameScreen implements Screen {
 		player1 = new Player(game.SCREEN_WIDTH / 2, game.SCREEN_HEIGHT / 3, PLAYER_WIDTH, PLAYER_HEIGHT, 10);
 		
 		generateAlienGrid(20,10,ALIEN_SIZE,ALIEN_SIZE);
+
 		camera.setToOrtho(false,game.SCREEN_WIDTH,game.SCREEN_HEIGHT);
+		game.batch.setProjectionMatrix(camera.combined);
 
 
 		//Alien testAlien = new Alien(4,4,4,4,4);	
@@ -173,6 +180,9 @@ public class GameScreen implements Screen {
 		}
 		player1.moveFromKeyboard();
 		manageProjectiles();
+		if(player1.health <= 0)
+			game.setScreen(new MenuScreen(game));
+
 		//removeEntities();
 	}	
 	
@@ -183,6 +193,7 @@ public class GameScreen implements Screen {
 			box1.x < box2.x + box2.width &&
 			box1.x + box1.width > box2.x &&
 		 	box1.y < box2.y + box2.height &&
+
 			box1.y + box1.height > box2.y
 		)
 		{

@@ -15,6 +15,9 @@ public class MenuScreen implements Screen
 	//Reference to the game object
 	final MyGdxGame game;
 	
+	private int screenWidth;
+	private int screenHeight;	
+	
 	OrthographicCamera camera;
 
 	//Dimensions of the startbutton image
@@ -41,6 +44,9 @@ public class MenuScreen implements Screen
 	{
 		this.game = game;
 		
+		screenWidth = game.SCREEN_WIDTH;
+		screenHeight = game.SCREEN_HEIGHT;
+
 		titleFont = new BitmapFont(Gdx.files.internal("title.fnt"));
 		startFont = new BitmapFont(Gdx.files.internal("title.fnt"));		
 		
@@ -48,15 +54,20 @@ public class MenuScreen implements Screen
 		//alienImage = new Texture(Gdx.files.internal("alien.png"));
 		startButtonImage = new Texture(Gdx.files.internal("startButton.png"));		
 		//End loading images
-
+		
+		//Camera setup
 		camera = new OrthographicCamera();
-		//Gdx.graphics.setWindowedMode(game.SCREEN_WIDTH, game.SCREEN_HEIGHT);
-		camera.setToOrtho(false, game.SCREEN_WIDTH, game.SCREEN_HEIGHT);
+		Gdx.graphics.setWindowedMode(screenWidth, screenHeight);
+		camera.setToOrtho(false, screenWidth, screenHeight);
+		//End camera setup
 
-		titleX = game.SCREEN_WIDTH/2;
-		titleY = game.SCREEN_HEIGHT - 100;
-		buttonX = game.SCREEN_WIDTH/2 - BUTTON_WIDTH/2;
-		buttonY = game.SCREEN_HEIGHT/5;
+		System.out.println(titleLength);
+		titleX = screenWidth/2 - titleLength;
+		titleY = screenHeight - 100;
+		buttonX = screenWidth/2 - BUTTON_WIDTH/2;
+		buttonY = 250;
+		
+		//getStringDrawLength not working, outputting 0
 		titleLength = getStringDrawLength(titleFont, "SpaceInvaders");
 	}
 
@@ -70,7 +81,7 @@ public class MenuScreen implements Screen
 	private void drawTitle()
 	{
 		//Had to adjust position manually, not sure what is happening with that
-		titleFont.draw(game.batch,"Space Invaders", (game.SCREEN_WIDTH - titleLength)/2, titleY);
+		titleFont.draw(game.batch,"Space Invaders", titleX, titleY);
 	}
 		
 	private void drawStartButton()
@@ -88,18 +99,19 @@ public class MenuScreen implements Screen
 	
 	private void checkStartButton(int x, int y)
 	{	
-		System.out.println("boxPostitionX: " + ((game.SCREEN_WIDTH / 2) - (BUTTON_WIDTH/2) ));
+		System.out.println("boxPostitionX: " + ((screenWidth / 2) - (BUTTON_WIDTH/2) ));
 		System.out.println("boxPositionY: " + buttonY);
-		System.out.println("Screenwidth: " + game.SCREEN_WIDTH);
-		System.out.println("Screenheight: " + game.SCREEN_HEIGHT);
+		System.out.println("Screenwidth: " + screenWidth);
+		System.out.println("Screenheight: " + screenHeight);
 		System.out.println("Boxwidth: " + BUTTON_WIDTH);
-		System.out.println("Screenwidth/2: " + game.SCREEN_WIDTH/2);
+		System.out.println("Screenwidth/2: " + screenWidth/2);
+		
 		if
 		(
 			x > buttonX &&
 			x < buttonX + BUTTON_WIDTH &&
-			game.SCREEN_HEIGHT - y > buttonY + BUTTON_HEIGHT &&
-			game.SCREEN_HEIGHT - y < buttonY
+			screenHeight - y < buttonY + BUTTON_HEIGHT &&
+			screenHeight - y > buttonY
 		)
 		{	
 			game.setScreen(new GameScreen(game));
@@ -116,7 +128,7 @@ public class MenuScreen implements Screen
 			drawStartButton();
 
 			//Draws mouse cords on the screen for debugging
-			game.font.draw(game.batch,"X: " + Gdx.input.getX() +"Y: " + (game.SCREEN_HEIGHT - Gdx.input.getY()), 400, 400);
+			game.font.draw(game.batch,"X: " + Gdx.input.getX() +"Y: " + (screenHeight - Gdx.input.getY()), 400, 400);
 		game.batch.end();
 		checkInput();	
 	}
@@ -130,7 +142,10 @@ public class MenuScreen implements Screen
 	@Override
 	public void resize(int width, int height)
 	{
-
+		screenWidth = Gdx.graphics.getWidth();
+		screenHeight = Gdx.graphics.getHeight();
+		camera.setToOrtho(false);
+		game.batch.setProjectionMatrix(camera.combined);
 	}
 	
 	@Override
