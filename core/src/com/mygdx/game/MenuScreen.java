@@ -24,19 +24,19 @@ public class MenuScreen implements Screen
 	final static int BUTTON_WIDTH = 200;
 	final static int BUTTON_HEIGHT = 100;
 	
+	//Dimensions of the title image
+	final static int TITLE_LENGTH = 300;
+	final static int TITLE_HEIGHT = 100;
+		
 	private float buttonX;
 	private float buttonY;
 
 	private float titleX;
 	private float titleY;	
 
-	//creating seperate objects for each line of text
-	//rendering bugs out otherwise
-	private BitmapFont titleFont;
-	private BitmapFont startFont;
-
 	//Texture delarations
 	private Texture startButtonImage;
+	private Texture titleImage;
 
 	private float titleLength;
 	
@@ -45,14 +45,12 @@ public class MenuScreen implements Screen
 		this.game = game;
 		
 		screenWidth = game.SCREEN_WIDTH;
-		screenHeight = game.SCREEN_HEIGHT;
-
-		titleFont = new BitmapFont(Gdx.files.internal("title.fnt"));
-		startFont = new BitmapFont(Gdx.files.internal("title.fnt"));		
+		screenHeight = game.SCREEN_HEIGHT;		
 		
 		//Loading images
 		//alienImage = new Texture(Gdx.files.internal("alien.png"));
-		startButtonImage = new Texture(Gdx.files.internal("startButton.png"));		
+		startButtonImage = new Texture(Gdx.files.internal("startButton.png"));	
+		titleImage = new Texture(Gdx.files.internal("titleImage.png"));	
 		//End loading images
 		
 		//Camera setup
@@ -62,26 +60,15 @@ public class MenuScreen implements Screen
 		//End camera setup
 
 		System.out.println(titleLength);
-		titleX = screenWidth/2 - titleLength;
-		titleY = screenHeight - 100;
+		titleX = screenWidth/2 - TITLE_LENGTH/2;
+		titleY = screenHeight - 350;
 		buttonX = screenWidth/2 - BUTTON_WIDTH/2;
 		buttonY = 250;
-		
-		//getStringDrawLength not working, outputting 0
-		titleLength = getStringDrawLength(titleFont, "SpaceInvaders");
-	}
-
-	private float getStringDrawLength(BitmapFont font, String text)
-	{
-		GlyphLayout glyph = new GlyphLayout(font, text);
-		
-		return glyph.width;
 	}
 	
 	private void drawTitle()
 	{
-		//Had to adjust position manually, not sure what is happening with that
-		titleFont.draw(game.batch,"Space Invaders", titleX, titleY);
+		game.batch.draw(titleImage, titleX, titleY);
 	}
 		
 	private void drawStartButton()
@@ -98,14 +85,16 @@ public class MenuScreen implements Screen
 	}	
 	
 	private void checkStartButton(int x, int y)
-	{	
+	{
+		/*	
 		System.out.println("boxPostitionX: " + ((screenWidth / 2) - (BUTTON_WIDTH/2) ));
 		System.out.println("boxPositionY: " + buttonY);
 		System.out.println("Screenwidth: " + screenWidth);
 		System.out.println("Screenheight: " + screenHeight);
 		System.out.println("Boxwidth: " + BUTTON_WIDTH);
 		System.out.println("Screenwidth/2: " + screenWidth/2);
-		
+		*/		
+
 		if
 		(
 			x > buttonX &&
@@ -128,7 +117,7 @@ public class MenuScreen implements Screen
 			drawStartButton();
 
 			//Draws mouse cords on the screen for debugging
-			game.font.draw(game.batch,"X: " + Gdx.input.getX() +"Y: " + (screenHeight - Gdx.input.getY()), 400, 400);
+			//game.font.draw(game.batch,"X: " + Gdx.input.getX() +"Y: " + (screenHeight - Gdx.input.getY()), 400, 400);
 		game.batch.end();
 		checkInput();	
 	}

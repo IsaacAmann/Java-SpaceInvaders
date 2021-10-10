@@ -67,7 +67,18 @@ public class GameScreen implements Screen {
 	private static ArrayList<Integer> playerProjectileRemoveList = new ArrayList<Integer>();
 
 	public GameScreen(final MyGdxGame game) {
-		
+		//Clears the object storing player inputs
+		clearControls();
+		//Resetting static arraylists
+		alienArray = new ArrayList<Alien>();
+		alienIterator = alienArray.iterator();
+		alienProjectileArray = new ArrayList<AlienProjectile>();
+		playerProjectileArray = new ArrayList<PlayerProjectile>();
+		alienRemoveList = new ArrayList<Integer>();
+		alienProjectileRemoveList = new ArrayList<Integer>();
+		playerProjectileRemoveList = new ArrayList<Integer>();
+		//End arraylist stuff		
+
 		this.game = game;
 		SCREEN_WIDTH = game.SCREEN_WIDTH;
 		SCREEN_HEIGHT = game.SCREEN_HEIGHT;
@@ -100,8 +111,6 @@ public class GameScreen implements Screen {
 		
 		
 	}
-	
-	//public boolean isColliding(
 
 	//static class to store player inputs 
 	static class playerInput
@@ -114,6 +123,17 @@ public class GameScreen implements Screen {
 		static boolean shield = false;
 	}
 	//controls
+
+	//Sets all control fields to false
+	public void clearControls()
+	{
+		playerInput.up = false;
+		playerInput.down = false;
+		playerInput.left = false;
+		playerInput.right = false;
+		playerInput.fire = false;
+		playerInput.shield = false;
+	}
 	private void manageInput()
 	{
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) 
@@ -182,6 +202,8 @@ public class GameScreen implements Screen {
 		manageProjectiles();
 		if(player1.health <= 0)
 			game.setScreen(new MenuScreen(game));
+		if(alienArray.size() == 0)
+			generateAlienGrid(20,10,ALIEN_SIZE,ALIEN_SIZE);
 
 		//removeEntities();
 	}	
